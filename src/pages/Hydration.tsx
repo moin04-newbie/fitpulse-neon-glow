@@ -1,4 +1,3 @@
-
 import { MainLayout } from "@/components/MainLayout";
 import { DashboardCard } from "@/components/DashboardCard";
 import { Droplets, Plus, Calendar, TrendingUp, Droplet, Clock, BarChart3 } from "lucide-react";
@@ -181,7 +180,7 @@ export default function Hydration() {
         {/* Hydration tips */}
         <DashboardCard
           title="Hydration Tips"
-          icon={<Drop className="h-5 w-5 text-blue-500" />}
+          icon={<Droplet className="h-5 w-5 text-blue-500" />}
           animation="fade-in"
           delay={3}
           className="md:col-span-3"
