@@ -32,6 +32,7 @@ export interface DashboardCardProps
   title?: string;
   icon?: ReactNode;
   footer?: ReactNode;
+  rightContent?: ReactNode;
   animation?: "slide-in" | "fade-in" | "none";
   delay?: number;
 }
@@ -43,6 +44,7 @@ export function DashboardCard({
   title,
   icon,
   footer,
+  rightContent,
   animation = "slide-in",
   delay = 0,
   children,
@@ -62,10 +64,13 @@ export function DashboardCard({
       }}
       {...props}
     >
-      {(title || icon) && (
+      {(title || icon || rightContent) && (
         <div className="flex items-center justify-between mb-3">
-          {title && <h3 className="font-medium text-sm">{title}</h3>}
-          {icon && <div className="text-muted-foreground">{icon}</div>}
+          <div className="flex items-center">
+            {title && <h3 className="font-medium text-sm">{title}</h3>}
+            {icon && <div className="text-muted-foreground ml-2">{icon}</div>}
+          </div>
+          {rightContent && <div>{rightContent}</div>}
         </div>
       )}
       <div>{children}</div>

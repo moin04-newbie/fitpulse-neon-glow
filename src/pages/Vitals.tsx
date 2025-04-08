@@ -1,7 +1,6 @@
-
 import { MainLayout } from "@/components/MainLayout";
 import { DashboardCard } from "@/components/DashboardCard";
-import { Activity, HeartPulse, Lungs, Zap, Brain, Thermometer, Scale, BarChart3 } from "lucide-react";
+import { Activity, HeartPulse, Wind, Zap, Brain, Thermometer, Scale, BarChart3 } from "lucide-react";
 import { ProgressRing } from "@/components/ProgressRing";
 import { todayData, weeklyActivityData } from "@/data/mockData";
 import { useState, useEffect } from "react";
@@ -12,7 +11,6 @@ export default function Vitals() {
   const [animatedOxygen, setAnimatedOxygen] = useState(0);
   const [animatedTemperature, setAnimatedTemperature] = useState(0);
   
-  // Sample vitals data (would be from API in real app)
   const vitalsData = {
     bloodPressure: {
       systolic: 120,
@@ -32,7 +30,6 @@ export default function Vitals() {
     }
   };
   
-  // Animation effect for heart rate
   useEffect(() => {
     const heartRateInterval = setInterval(() => {
       setAnimatedHeartRate(prev => {
@@ -74,7 +71,6 @@ export default function Vitals() {
   return (
     <MainLayout pageTitle="Vitals" pageDescription="Monitor your health metrics">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {/* Heart Rate Card */}
         <DashboardCard 
           title="Heart Rate" 
           icon={<HeartPulse className="h-5 w-5 text-red-500" />}
@@ -110,7 +106,6 @@ export default function Vitals() {
           </div>
         </DashboardCard>
         
-        {/* Blood Pressure Card */}
         <DashboardCard 
           title="Blood Pressure" 
           icon={<Activity className="h-5 w-5 text-blue-500" />}
@@ -133,10 +128,9 @@ export default function Vitals() {
           </div>
         </DashboardCard>
         
-        {/* Oxygen Level Card */}
         <DashboardCard 
           title="Blood Oxygen" 
-          icon={<Lungs className="h-5 w-5 text-cyan-500" />}
+          icon={<Wind className="h-5 w-5 text-cyan-500" />}
           delay={2}
           className="animate-fade-in"
         >
@@ -158,10 +152,9 @@ export default function Vitals() {
           </div>
         </DashboardCard>
         
-        {/* Respiratory Rate Card */}
         <DashboardCard 
           title="Respiratory Rate" 
-          icon={<Lungs className="h-5 w-5 text-teal-500" />}
+          icon={<Wind className="h-5 w-5 text-teal-500" />}
           delay={3}
           className="animate-fade-in"
         >
@@ -181,7 +174,6 @@ export default function Vitals() {
           </div>
         </DashboardCard>
         
-        {/* Stress Level Card */}
         <DashboardCard 
           title="Stress Level" 
           icon={<Brain className="h-5 w-5 text-purple-500" />}
@@ -204,7 +196,6 @@ export default function Vitals() {
           </div>
         </DashboardCard>
         
-        {/* Body Temperature Card */}
         <DashboardCard 
           title="Body Temperature" 
           icon={<Thermometer className="h-5 w-5 text-orange-500" />}
@@ -227,7 +218,6 @@ export default function Vitals() {
           </div>
         </DashboardCard>
         
-        {/* Weight Tracker Card */}
         <DashboardCard 
           title="Weight" 
           icon={<Scale className="h-5 w-5 text-blue-400" />}
@@ -268,7 +258,6 @@ export default function Vitals() {
           </div>
         </DashboardCard>
         
-        {/* Weekly Trends Card */}
         <DashboardCard 
           title="Weekly Trends" 
           icon={<BarChart3 className="h-5 w-5" />}
