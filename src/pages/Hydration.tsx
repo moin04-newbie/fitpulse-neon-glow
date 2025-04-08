@@ -1,7 +1,7 @@
 
 import { MainLayout } from "@/components/MainLayout";
 import { DashboardCard } from "@/components/DashboardCard";
-import { Droplets, Plus, Calendar, TrendingUp, Drop, Clock, BarChart3 } from "lucide-react";
+import { Droplets, Plus, Calendar, TrendingUp, Droplet, Clock, BarChart3 } from "lucide-react";
 import { ProgressRing } from "@/components/ProgressRing";
 import { useState, useEffect } from "react";
 import { userData } from "@/data/mockData";

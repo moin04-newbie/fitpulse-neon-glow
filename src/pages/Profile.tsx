@@ -1,7 +1,7 @@
 
 import { MainLayout } from "@/components/MainLayout";
 import { DashboardCard } from "@/components/DashboardCard";
-import { UserCircle, Settings, Bell, Shield, Mail, Gift, Edit, Calendar, MapPin, Weight, Ruler, Heart } from "lucide-react";
+import { UserCircle, Settings, Bell, Shield, Mail, Gift, Edit, Calendar, MapPin, Weight, Ruler, Heart, Activity } from "lucide-react";
 import { userData } from "@/data/mockData";
 
 export default function Profile() {

@@ -13,6 +13,7 @@ export const userData = {
     water: 2000, // ml
     sleep: 8, // hours
     workouts: 5, // per week
+    weight: 65 // kg - adding the missing weight goal
   },
   avatar: "https://randomuser.me/api/portraits/men/32.jpg",
   joinDate: "2023-05-15",
