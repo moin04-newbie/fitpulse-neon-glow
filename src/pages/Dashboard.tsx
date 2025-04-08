@@ -1,4 +1,3 @@
-
 import { 
   Activity, 
   CalendarClock, 
@@ -14,6 +13,9 @@ import { ProgressRing } from "@/components/ProgressRing";
 import { todayData, weeklyActivityData, userData, upcomingWorkouts } from "@/data/mockData";
 import { formatDistanceToNow } from "date-fns";
 import { useEffect, useState } from "react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export default function Dashboard() {
   const [animatedSteps, setAnimatedSteps] = useState(0);
@@ -69,10 +71,41 @@ export default function Dashboard() {
     day: 'numeric'
   });
   
+  const overallProgress = Math.round((stepsCompletion + caloriesCompletion + waterCompletion) / 3);
+  
   return (
     <MainLayout pageTitle="Dashboard" pageDescription={today}>
+      <Card className="mb-6 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 backdrop-blur-sm">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-xl">Daily Progress</CardTitle>
+          <CardDescription>
+            Your overall progress for the day
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-4 items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Badge variant="outline" className="bg-primary/10 px-3 py-1.5 text-primary">
+                <Activity className="h-4 w-4 mr-1" />
+                {overallProgress}% Complete
+              </Badge>
+              <Badge variant="outline" className="bg-amber-500/10 px-3 py-1.5 text-amber-500">
+                <Flame className="h-4 w-4 mr-1" />
+                {animatedCalories.toLocaleString()} kcal
+              </Badge>
+              <Badge variant="outline" className="bg-blue-500/10 px-3 py-1.5 text-blue-500">
+                <Droplets className="h-4 w-4 mr-1" />
+                {(animatedWater / 1000).toFixed(1)}L
+              </Badge>
+            </div>
+            <Button variant="default" size="sm" className="ml-auto">
+              View Details
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {/* Steps Card */}
         <DashboardCard 
           title="Daily Steps" 
           icon={<Activity className="h-5 w-5" />}
@@ -96,7 +129,6 @@ export default function Dashboard() {
           </div>
         </DashboardCard>
         
-        {/* Calories Card */}
         <DashboardCard 
           title="Calories Burned" 
           icon={<Flame className="h-5 w-5 text-neon-pink" />}
@@ -120,7 +152,6 @@ export default function Dashboard() {
           </div>
         </DashboardCard>
         
-        {/* Water Card */}
         <DashboardCard 
           title="Hydration" 
           icon={<Droplets className="h-5 w-5 text-blue-400" />}
@@ -145,7 +176,6 @@ export default function Dashboard() {
           </div>
         </DashboardCard>
         
-        {/* Heart Rate Card */}
         <DashboardCard 
           title="Heart Rate" 
           icon={<Heart className="h-5 w-5 text-neon-pink animate-pulse-glow" />}
@@ -172,7 +202,6 @@ export default function Dashboard() {
           </div>
         </DashboardCard>
         
-        {/* Recent Activity */}
         <DashboardCard 
           title="Recent Activity"
           icon={<Activity className="h-5 w-5" />}
@@ -204,7 +233,6 @@ export default function Dashboard() {
           </div>
         </DashboardCard>
         
-        {/* Sleep Card */}
         <DashboardCard 
           title="Last Night's Sleep" 
           icon={<Moon className="h-5 w-5 text-indigo-400" />}
@@ -236,7 +264,6 @@ export default function Dashboard() {
           </div>
         </DashboardCard>
         
-        {/* Upcoming Workouts */}
         <DashboardCard 
           title="Upcoming Workouts" 
           icon={<CalendarClock className="h-5 w-5 text-neon-yellow" />}
@@ -273,6 +300,32 @@ export default function Dashboard() {
             ))}
           </div>
         </DashboardCard>
+        
+        <Card className="bg-card text-card-foreground xl:col-span-4">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg">Quick Actions</CardTitle>
+            <CardDescription>Common tasks and shortcuts</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              {[
+                { name: "Add Workout", icon: <Activity className="h-5 w-5" />, color: "bg-indigo-500/10 text-indigo-500" },
+                { name: "Track Water", icon: <Droplets className="h-5 w-5" />, color: "bg-blue-500/10 text-blue-500" },
+                { name: "Record Weight", icon: <Activity className="h-5 w-5" />, color: "bg-green-500/10 text-green-500" },
+                { name: "Add Sleep", icon: <Moon className="h-5 w-5" />, color: "bg-purple-500/10 text-purple-500" },
+                { name: "Take Vitals", icon: <Heart className="h-5 w-5" />, color: "bg-red-500/10 text-red-500" },
+                { name: "Schedule", icon: <CalendarClock className="h-5 w-5" />, color: "bg-amber-500/10 text-amber-500" },
+              ].map((action, index) => (
+                <Button key={index} variant="outline" className="h-auto flex-col py-6 px-4 gap-3 hover:bg-muted transition-colors">
+                  <div className={`p-3 rounded-full ${action.color}`}>
+                    {action.icon}
+                  </div>
+                  <span className="text-xs">{action.name}</span>
+                </Button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </MainLayout>
   );
