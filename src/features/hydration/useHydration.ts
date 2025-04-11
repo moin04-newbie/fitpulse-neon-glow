@@ -37,27 +37,27 @@ export function useHydration() {
     {
       title: "Morning Routine",
       tip: "Drink a glass of water immediately after waking up to boost metabolism.",
-      icon: <Calendar className="h-5 w-5" />
+      icon: Calendar
     },
     {
       title: "Consistent Reminders",
       tip: "Set regular reminders to drink water throughout your day.",
-      icon: <Clock className="h-5 w-5" />
+      icon: Clock
     },
     {
       title: "Water-Rich Foods",
       tip: "Eat fruits with high water content like watermelon and cucumber.",
-      icon: <TrendingUp className="h-5 w-5" />
+      icon: TrendingUp
     },
     {
       title: "Hydration Schedule",
       tip: "Drink 2 cups before each meal and 1 cup between meals to stay hydrated.",
-      icon: <Droplet className="h-5 w-5" />
+      icon: Droplet
     },
     {
       title: "Quality Over Quantity",
       tip: "Sip water slowly throughout the day rather than chugging all at once.",
-      icon: <Droplets className="h-5 w-5" />
+      icon: Droplets
     }
   ];
   
