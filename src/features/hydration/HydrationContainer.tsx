@@ -1,4 +1,3 @@
-
 import { MainLayout } from "@/components/MainLayout";
 import { DashboardCard } from "@/components/DashboardCard";
 import { HydrationTracker } from "./HydrationTracker";
@@ -6,6 +5,7 @@ import { HydrationLog } from "./HydrationLog";
 import { WeeklyProgress } from "./WeeklyProgress";
 import { HydrationTips } from "./HydrationTips";
 import { useHydration } from "./useHydration";
+import { HydrationIcon } from "./HydrationIcon";
 
 export default function HydrationContainer() {
   const {
