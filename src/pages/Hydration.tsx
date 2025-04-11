@@ -1,13 +1,25 @@
+
 import { MainLayout } from "@/components/MainLayout";
 import { DashboardCard } from "@/components/DashboardCard";
 import { Droplets, Plus, Calendar, TrendingUp, Droplet, Clock, BarChart3 } from "lucide-react";
 import { ProgressRing } from "@/components/ProgressRing";
 import { useState, useEffect } from "react";
 import { userData } from "@/data/mockData";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Hydration() {
   const [animatedWater, setAnimatedWater] = useState(0);
   const [waterIntake, setWaterIntake] = useState(1800); // ml
+  const [intakeLog, setIntakeLog] = useState([
+    { time: "7:30 AM", amount: 350, type: "Water" },
+    { time: "9:45 AM", amount: 250, type: "Coffee" },
+    { time: "12:15 PM", amount: 500, type: "Water" },
+    { time: "3:30 PM", amount: 350, type: "Water" },
+    { time: "5:45 PM", amount: 350, type: "Tea" },
+  ]);
+  const [customAmount, setCustomAmount] = useState(0);
+  const [showCustomInput, setShowCustomInput] = useState(false);
+  const { toast } = useToast();
   
   const waterGoal = userData.goals.water; // ml
   const waterCompletion = (waterIntake / waterGoal) * 100;
@@ -22,13 +34,57 @@ export default function Hydration() {
     { day: "Sun", amount: 2200, goal: waterGoal },
   ];
   
-  const intakeLog = [
-    { time: "7:30 AM", amount: 350, type: "Water" },
-    { time: "9:45 AM", amount: 250, type: "Coffee" },
-    { time: "12:15 PM", amount: 500, type: "Water" },
-    { time: "3:30 PM", amount: 350, type: "Water" },
-    { time: "5:45 PM", amount: 350, type: "Tea" },
+  // Hydration tips with state to rotate them
+  const [tipIndex, setTipIndex] = useState(0);
+  const hydrationTips = [
+    {
+      title: "Morning Routine",
+      tip: "Drink a glass of water immediately after waking up to boost metabolism.",
+      icon: <Calendar className="h-5 w-5" />
+    },
+    {
+      title: "Consistent Reminders",
+      tip: "Set regular reminders to drink water throughout your day.",
+      icon: <Clock className="h-5 w-5" />
+    },
+    {
+      title: "Water-Rich Foods",
+      tip: "Eat fruits with high water content like watermelon and cucumber.",
+      icon: <TrendingUp className="h-5 w-5" />
+    },
+    {
+      title: "Hydration Schedule",
+      tip: "Drink 2 cups before each meal and 1 cup between meals to stay hydrated.",
+      icon: <Droplet className="h-5 w-5" />
+    },
+    {
+      title: "Quality Over Quantity",
+      tip: "Sip water slowly throughout the day rather than chugging all at once.",
+      icon: <Droplets className="h-5 w-5" />
+    }
   ];
+  
+  // Auto-rotate hydration tips every 15 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTipIndex(prev => (prev + 1) % hydrationTips.length);
+    }, 15000);
+    
+    return () => clearInterval(interval);
+  }, [hydrationTips.length]);
+  
+  // Simulate real-time hydration data with small random fluctuations
+  useEffect(() => {
+    const realTimeUpdate = setInterval(() => {
+      // Small random chance of auto-adding a small amount of water (simulating passive tracking)
+      if (Math.random() < 0.05) {
+        const smallAmount = Math.floor(Math.random() * 50) + 30;
+        addWater(smallAmount, true);
+      }
+    }, 30000);
+    
+    return () => clearInterval(realTimeUpdate);
+  }, []);
   
   useEffect(() => {
     const waterInterval = setInterval(() => {
@@ -46,8 +102,56 @@ export default function Hydration() {
     };
   }, [waterIntake]);
   
-  const addWater = (amount: number) => {
+  const addWater = (amount: number, isAutomatic = false) => {
+    const currentTime = new Date();
+    const formattedTime = currentTime.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+    
     setWaterIntake(prev => prev + amount);
+    
+    // Add to log
+    if (!isAutomatic) {
+      setIntakeLog(prev => [
+        { time: formattedTime, amount, type: "Water" },
+        ...prev
+      ]);
+      
+      // Show toast notification
+      toast({
+        title: "Hydration tracked!",
+        description: `Added ${amount}ml of water to your daily total.`,
+      });
+    }
+    
+    // Random chance to show an encouraging message when goal is close
+    const newTotal = waterIntake + amount;
+    if (newTotal >= waterGoal * 0.85 && newTotal < waterGoal && Math.random() > 0.5) {
+      setTimeout(() => {
+        toast({
+          title: "Almost there!",
+          description: `You're nearly at your daily hydration goal!`,
+        });
+      }, 1500);
+    } else if (newTotal >= waterGoal && newTotal < waterGoal + amount) {
+      // Congratulate on reaching the goal
+      setTimeout(() => {
+        toast({
+          title: "Goal achieved! 🎉",
+          description: `You've reached your daily hydration goal of ${waterGoal/1000}L!`,
+        });
+      }, 1500);
+    }
+  };
+  
+  const handleCustomAmountSubmit = () => {
+    if (customAmount > 0) {
+      addWater(customAmount);
+      setCustomAmount(0);
+      setShowCustomInput(false);
+    }
   };
   
   return (
@@ -102,10 +206,41 @@ export default function Hydration() {
                 ))}
               </div>
               
-              <button className="w-full py-2 px-4 bg-primary text-primary-foreground rounded-md flex items-center justify-center space-x-2 text-sm">
-                <Plus size={16} />
-                <span>Custom Amount</span>
-              </button>
+              {showCustomInput ? (
+                <div className="space-y-2">
+                  <div className="flex space-x-2">
+                    <input
+                      type="number"
+                      value={customAmount || ''}
+                      onChange={(e) => setCustomAmount(parseInt(e.target.value) || 0)}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      placeholder="Enter amount (ml)"
+                      min="1"
+                      max="2000"
+                    />
+                    <button 
+                      onClick={handleCustomAmountSubmit}
+                      className="py-2 px-4 bg-primary text-primary-foreground rounded-md"
+                    >
+                      Add
+                    </button>
+                  </div>
+                  <button 
+                    onClick={() => setShowCustomInput(false)}
+                    className="text-xs text-muted-foreground hover:underline"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowCustomInput(true)}
+                  className="w-full py-2 px-4 bg-primary text-primary-foreground rounded-md flex items-center justify-center space-x-2 text-sm"
+                >
+                  <Plus size={16} />
+                  <span>Custom Amount</span>
+                </button>
+              )}
             </div>
           </div>
         </DashboardCard>
@@ -117,7 +252,7 @@ export default function Hydration() {
           animation="fade-in"
           delay={1}
         >
-          <div className="divide-y divide-border/50">
+          <div className="divide-y divide-border/50 max-h-[300px] overflow-y-auto">
             {intakeLog.map((entry, i) => (
               <div key={i} className="py-3 flex items-center justify-between">
                 <div>
@@ -130,7 +265,10 @@ export default function Hydration() {
               </div>
             ))}
           </div>
-          <button className="w-full mt-3 py-2 text-sm text-primary hover:underline flex items-center justify-center">
+          <button 
+            className="w-full mt-3 py-2 text-sm text-primary hover:underline flex items-center justify-center"
+            onClick={() => setShowCustomInput(true)}
+          >
             <Plus size={16} className="mr-1" />
             Add Entry
           </button>
@@ -187,24 +325,8 @@ export default function Hydration() {
           variant="gradient"
         >
           <div className="grid md:grid-cols-3 gap-4 p-2">
-            {[
-              {
-                title: "Morning Routine",
-                tip: "Drink a glass of water immediately after waking up to boost metabolism.",
-                icon: <Calendar className="h-5 w-5" />
-              },
-              {
-                title: "Consistent Reminders",
-                tip: "Set regular reminders to drink water throughout your day.",
-                icon: <Clock className="h-5 w-5" />
-              },
-              {
-                title: "Water-Rich Foods",
-                tip: "Eat fruits with high water content like watermelon and cucumber.",
-                icon: <TrendingUp className="h-5 w-5" />
-              },
-            ].map((item, i) => (
-              <div key={i} className="bg-background/80 backdrop-blur-sm p-4 rounded-lg">
+            {hydrationTips.slice(tipIndex, tipIndex + 3).map((item, i) => (
+              <div key={i} className="bg-background/80 backdrop-blur-sm p-4 rounded-lg transform transition-all hover:scale-[1.03]">
                 <div className="flex items-center mb-2">
                   <div className="bg-blue-500/10 text-blue-500 p-2 rounded-full mr-2">
                     {item.icon}
