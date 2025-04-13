@@ -1,12 +1,12 @@
 
-import { Activity, CalendarClock, Droplets, Heart, Moon, Weight } from "lucide-react";
+import { Activity, CalendarClock, Droplet, Heart, Moon, Weight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function QuickActionsCard() {
   const actions = [
     { name: "Add Workout", icon: <Activity className="h-5 w-5" />, color: "bg-indigo-500/10 text-indigo-500" },
-    { name: "Track Water", icon: <Droplets className="h-5 w-5" />, color: "bg-blue-500/10 text-blue-500" },
+    { name: "Track Water", icon: <Droplet className="h-5 w-5" />, color: "bg-blue-500/10 text-blue-500" },
     { name: "Record Weight", icon: <Weight className="h-5 w-5" />, color: "bg-green-500/10 text-green-500" },
     { name: "Add Sleep", icon: <Moon className="h-5 w-5" />, color: "bg-purple-500/10 text-purple-500" },
     { name: "Take Vitals", icon: <Heart className="h-5 w-5" />, color: "bg-red-500/10 text-red-500" },

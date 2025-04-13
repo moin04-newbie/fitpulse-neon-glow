@@ -1,5 +1,5 @@
 
-import { Activity, Droplets, Flame } from "lucide-react";
+import { Activity, Droplet, Flame } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,7 +31,7 @@ export function DailySummaryCard({ overallProgress, calories, water }: DailySumm
               {calories.toLocaleString()} kcal
             </Badge>
             <Badge variant="outline" className="bg-blue-500/10 px-3 py-1.5 text-blue-500">
-              <Droplets className="h-4 w-4 mr-1" />
+              <Droplet className="h-4 w-4 mr-1" />
               {(water / 1000).toFixed(1)}L
             </Badge>
           </div>
