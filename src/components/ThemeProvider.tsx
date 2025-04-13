@@ -27,15 +27,14 @@ export function ThemeProvider({
   storageKey = "fitpulse-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => "dark"
-  );
+  const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
+    // Always ensure dark mode is applied
     const root = window.document.documentElement;
-    root.classList.remove("light", "dark");
-    root.classList.add(theme);
-  }, [theme]);
+    root.classList.remove("light");
+    root.classList.add("dark");
+  }, []);
 
   const value = {
     theme,

@@ -1,10 +1,10 @@
 
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   BarChart3, 
   CalendarDays, 
-  Droplets, 
+  Droplet, 
   Home, 
   Menu, 
   Moon, 
@@ -12,10 +12,12 @@ import {
   UserCircle, 
   Dumbbell, 
   Heart,
-  X
+  X,
+  LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
+import { useToast } from "@/hooks/use-toast";
 
 type NavItem = {
   title: string;
@@ -42,7 +44,7 @@ const navItems: NavItem[] = [
   {
     title: "Hydration",
     href: "/hydration",
-    icon: <Droplets className="w-5 h-5" />,
+    icon: <Droplet className="w-5 h-5" />,
   },
   {
     title: "Recovery",
@@ -69,6 +71,17 @@ const navItems: NavItem[] = [
 export function Sidebar() {
   const [expanded, setExpanded] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  const handleLogout = () => {
+    localStorage.removeItem("fitpulse-user");
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully",
+    });
+    navigate("/login");
+  };
   
   return (
     <aside 
@@ -119,7 +132,17 @@ export function Sidebar() {
         "absolute bottom-4 flex transition-all duration-300 ease-in-out",
         expanded ? "w-64 px-4 justify-between" : "w-16 justify-center"
       )}>
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          {expanded && (
+            <button 
+              onClick={handleLogout}
+              className="p-2 rounded-full hover:bg-sidebar-accent transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          )}
+        </div>
         {expanded && <span className="text-xs text-muted-foreground">v1.0.0</span>}
       </div>
     </aside>
