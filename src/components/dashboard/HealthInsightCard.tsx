@@ -1,5 +1,5 @@
 
-import { Sparkles, TrendingUp, Zap } from "lucide-react";
+import { Sparkles, TrendingUp, Zap, Droplet } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -46,7 +46,7 @@ export function HealthInsightCard() {
           
           <div className="flex items-start space-x-4 bg-card/50 p-4 rounded-lg">
             <div className="bg-blue-500/10 p-2 rounded-full">
-              <Droplets className="h-5 w-5 text-blue-500" />
+              <Droplet className="h-5 w-5 text-blue-500" />
             </div>
             <div>
               <h3 className="font-medium text-sm">Hydration Streak</h3>
