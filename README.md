@@ -24,13 +24,13 @@ Follow these steps:
 
 ```sh
 # Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone [<YOUR_GIT_URL>](https://github.com/moin04-newbie/fitpulse-neon-glow.git)
 
 # Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+cd fitpulse-neon-glow
 
 # Step 3: Install the necessary dependencies.
-npm i
+npm install
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
